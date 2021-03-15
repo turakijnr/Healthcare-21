@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 const Joi = require('joi');
-const Drug = mongoose.model('Drug',new mongoose.schema({
-    name: {
+const Drug = mongoose.model('Drug', new mongoose.Schema({
+    drugName: {
         type: String,
+        unique: true,
         required: true,
         trim: true
     },
@@ -16,8 +17,12 @@ const Drug = mongoose.model('Drug',new mongoose.schema({
         required: true,
         
     },
+    sellingPrice:{
+        type: Number,
+        required: true,
+    },
     drugType:{
-        type: string,
+        type: String,
         required: true,
         
     },
@@ -36,16 +41,17 @@ const Drug = mongoose.model('Drug',new mongoose.schema({
 }))
 
 function validateDrug(drug) {
-    const schema = {
-      name: Joi.string().min(5).max(50).required(),
+    const schema = Joi.object({
+      drugName: Joi.string().min(5).max(50).required(),
       location: Joi.string().min(5).max(50).required(),
       price: Joi.number().min(0).required(),
+      sellingPrice: Joi.number().min(0).required(),
       drugType: Joi.string().min(5).max(50).required(),
-      quantity: Joi.string().min(5).max(50).required(),
+      quantity: Joi.number().min(0).required(),
       availability: Joi.string().min(5).max(50).required(),
-    };
+    });
   
-    return Joi.validate(drug, schema);
+    return schema.validate(drug);
 }
-module.exports = Drug
-module.exports = validateDrug
+exports.Drug = Drug
+exports.validate = validateDrug
