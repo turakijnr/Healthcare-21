@@ -10,7 +10,7 @@ const dashboard = require("./src/routes/dashboard");
 const cors = require("cors");
 const helmet = require('helmet')
 const compression = require('compression')
-const port = process.env.PORT || 3000;
+const port = process.env.PORT 
 const app = express();
 
 app.use(express.json());
@@ -23,6 +23,8 @@ app.use(drugs);
 app.use(sales);
 app.use(dashboard);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log("server is up on port" + port);
 });
+
+module.exports = server
