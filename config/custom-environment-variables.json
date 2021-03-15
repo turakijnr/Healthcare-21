@@ -1,4 +1,4 @@
 {
-    "jwtPrivateKey": "health_jwtPrivateKey",
-    "db": "health_db"
+  "jwtPrivateKey": "health_jwtPrivateKey",
+  "db": "health_db"
 }
