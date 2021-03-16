@@ -23,8 +23,8 @@ app.use(drugs);
 app.use(sales);
 app.use(dashboard);
 
-const server = app.listen(port, () => {
+  app.listen(port, () => {
   console.log("server is up on port" + port);
 });
 
-module.exports = server
+
