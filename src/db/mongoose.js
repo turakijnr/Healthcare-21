@@ -9,10 +9,9 @@
 // .catch(err => console.error('could not connect to MongoDb', err))
 
 const mongoose = require("mongoose");
-// const config = require("config");
-const keys = require("../../config/keys");
+const config = require("config");
 module.exports = function () {
-  const db = keys.MONGODB_URL;
+  const db = config.get("db");
   mongoose
     .connect(db, {
       useNewUrlParser: true,
