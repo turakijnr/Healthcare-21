@@ -7,12 +7,13 @@
 // })
 // .then(() => console.log('connected to MongoDB...'))
 // .catch(err => console.error('could not connect to MongoDb', err))
-const mongoose = require("mongoose");
-const config = require("config");
+const mongoose = require('mongoose');
+const config = require('config');
 module.exports = function () {
-  // const db = config.get('db');
-  const db = process.env.health_db;
-  mongoose
-    .connect(db) // database connection
-    .then(() => console.log(`Connected to ${db}...`));
-};
+    // const db = config.get('db');
+    const db = config.get('db');
+    mongoose.connect(db)// database connection
+        .then(()=> console.log (`Connected to ${db}...`));
+    
+    
+}
