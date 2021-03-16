@@ -1,4 +1,4 @@
 {
   "jwtPrivateKey": "health_jwtPrivateKey",
-  "MONGODB_URL": "mongodb://localhost/healthcare-api"
+  "MONGODB_URL": "health_db"
 }
