@@ -14,7 +14,9 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(user);
 });
 router.post('/users', async (req, res) => {
-    const { error } = validateUser(req.body); 
+    try
+    {
+        const { error } = validateUser(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
   
     let user = await User.findOne({ email: req.body.email });
@@ -27,6 +29,10 @@ router.post('/users', async (req, res) => {
   
     const token = user.generateAuthToken();
     res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
+    }
+    catch(e){
+        res.send(e)
+    }
 });
   
 module.exports = router; 
