@@ -48,4 +48,4 @@ function validateUser(user) {
 };
 
 module.exports = User;
-exports.validate = validateUser; 
+exports.validateUser = validateUser; 
