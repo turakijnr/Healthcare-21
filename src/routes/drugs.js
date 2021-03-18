@@ -1,4 +1,4 @@
-const {Drug, validate} = require('../models/drug');
+const {Drug, validateDrug} = require('../models/drug');
 const auth = require('../middleware/auth')
 const admin = require('../middleware/admin')
 const mongoose = require('mongoose');
@@ -11,7 +11,7 @@ router.get('/drugs',auth, async (req, res) => {
     res.send(drugs);
 });
 router.post('/drugs',[auth, admin], async (req, res) => {
-    const { error } = validate(req.body); 
+    const { error } = validateDrug(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
     let drug = await Drug.findOne({ drugName: req.body.drugName });
     if (drug) return res.status(400).send('Drug already Exist.');
@@ -32,7 +32,7 @@ router.post('/drugs',[auth, admin], async (req, res) => {
     res.send(drug);
 });
 router.put('/drugs/:id',[auth,admin], async (req, res) => {
-    const { error } = validate(req.body); 
+    const { error } = validateDrug(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
   
     const drug = await Drug.findByIdAndUpdate(req.params.id,

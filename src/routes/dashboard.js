@@ -6,8 +6,14 @@ const Drug = require("../models/drug");
 const auth = require("../middleware/auth");
 
 router.get("/dashboard/drugs", auth, async (req, res) => {
-  const totaldrugs = await Drug.find();
+  try{
+    const totaldrugs = await Drug.find();
   res.send(totaldrugs);
+  }
+  catch(e){
+    console.log(e)
+    res.send(e)
+  }
 });
 
 router.get("/dashboard/sales", auth, async (req, res) => {
