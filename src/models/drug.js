@@ -53,5 +53,5 @@ function validateDrug(drug) {
   
     return schema.validate(drug);
 }
-module.exports = Drug
-module.exports = validateDrug
+exports.Drug = Drug
+exports.validateDrug = validateDrug

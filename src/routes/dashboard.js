@@ -1,11 +1,12 @@
 const express = require("express");
-const router = express.Router();
-const Sale = require("../models/sale");
-const User = require("../models/user");
-const Drug = require("../models/drug");
+const mongoose = require('mongoose')
+const {Sale} = require("../models/sale");
+const {User} = require("../models/user");
+const {Drug} = require("../models/drug");
 const auth = require("../middleware/auth");
-
-router.get("/dashboard/drugs", auth, async (req, res) => {
+const admin = require("../middleware/admin");
+const router = express.Router();
+router.get("/dashboard/drugs", [auth,admin], async (req, res) => {
   try{
     const totaldrugs = await Drug.find();
   res.send(totaldrugs);
@@ -16,17 +17,17 @@ router.get("/dashboard/drugs", auth, async (req, res) => {
   }
 });
 
-router.get("/dashboard/sales", auth, async (req, res) => {
+router.get("/dashboard/sales",[auth,admin], async (req, res) => {
   const totalsales = await Sale.find();
   res.send(totalsales);
 });
 
-router.get("/dashboard/users", auth, async (req, res) => {
+router.get("/dashboard/users", [auth,admin], async (req, res) => {
   const totalusers = await User.find();
   res.send(totalusers);
 });
 
-router.get("/dashboard/daily-sales", auth, async (req, res) => {
+router.get("/dashboard/daily-sales", [auth,admin], async (req, res) => {
   const now = new Date();
   // getting Current Date
   const currentDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -47,7 +48,7 @@ router.get("/dashboard/daily-sales", auth, async (req, res) => {
 
   res.send({ totalsales, sumSales });
 });
-router.get("/dashboard/weekly-sales", auth, async (req, res) => {
+router.get("/dashboard/weekly-sales", [auth,admin], async (req, res) => {
   //Getting Current Week
   const now = new Date();
   const currentWeek = new Date(
@@ -72,7 +73,7 @@ router.get("/dashboard/weekly-sales", auth, async (req, res) => {
 
   res.send({ totalsales, sumSales });
 });
-router.get("/dashboard/monthly-sales", auth, async (req, res) => {
+router.get("/dashboard/monthly-sales", [auth,admin], async (req, res) => {
   //Getting monthly Week
   const now = new Date();
   const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
