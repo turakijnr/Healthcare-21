@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.get('/drugs',auth, async (req, res) => {
-    const drugs = await Drug.find().sort('drugName');
+    const drugs = await Drug.find()
     res.send(drugs);
 });
 router.post('/drugs',[auth, admin], async (req, res) => {
