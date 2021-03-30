@@ -31,7 +31,7 @@ router.post('/drugs',[auth, admin], async (req, res) => {
     
     res.send(drug);
 });
-router.put('/drugs/:id',[auth,admin], async (req, res) => {
+router.patch('/drugs/:id',[auth,admin], async (req, res) => {
     const { error } = validateDrug(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
   
