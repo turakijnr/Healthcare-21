@@ -45,7 +45,7 @@ router.patch('/users/:id', [auth,admin],async (req,res)=>{
         return res.status(400).send({error: 'invalid updates!'})
     }
     try{
-       const user = await User.findByIdAndUpdate(req.params.id,{new:true, runValidators: true})
+       const user = await User.findByIdAndUpdate(req.params.id, req.body,{new:true, runValidators: true})
        if (!user){
            return res.status(404).send('User not found')
        }
