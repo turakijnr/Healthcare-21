@@ -40,6 +40,21 @@ router.get("/sales/:id", auth, async (req, res) => {
     res.status(400).send(e);
   }
 });
+
+router.get("/sales-user", auth, async (req, res) => {
+  try {
+    const sale = await Sale.find({soldBy: req.user._id})
+      .populate("_drug", '-price')
+      .populate("soldBy",'-password');
+    if (!sale) {
+      return res.status(404).send("The Drug with the given id was not found");
+    }
+    res.send(sale);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
 router.delete("/sales/:id", [auth,admin], async (req, res) => {
   try {
     const sale = await Sale.findByIdAndRemove(req.params.id);
