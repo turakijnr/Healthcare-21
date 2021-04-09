@@ -61,7 +61,7 @@ router.patch('/quantity/:id',auth, async (req,res)=>{
     try{
        const drug = await Drug.findByIdAndUpdate(req.params.id, req.body,{new:true, runValidators: true})
        if (!drug){
-           return res.status(404).send('User not found')
+           return res.status(404).send('drug not found')
        }
        res.send(drug)
     }
