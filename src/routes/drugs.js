@@ -51,6 +51,26 @@ router.patch('/drugs/:id',[auth,admin], async (req, res) => {
     
     res.send(drug);
 });
+router.patch('/quantity/:id',auth, async (req,res)=>{
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['quantity']
+    const isValidOperation = updates.every((update)=> allowedUpdates.includes(update))
+    if (!isValidOperation){
+        return res.status(400).send({error: 'invalid updates!'})
+    }
+    try{
+       const drug = await Drug.findByIdAndUpdate(req.params.id, req.body,{new:true, runValidators: true})
+       if (!drug){
+           return res.status(404).send('User not found')
+       }
+       res.send(drug)
+    }
+    catch(e){
+        console.log(e)
+        res.status(400).send(e)
+        
+    }
+});
 router.delete('/drugs/:id',[auth,admin], async (req, res) => {
     const drug = await Drug.findByIdAndRemove(req.params.id);
   

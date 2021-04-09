@@ -10,7 +10,7 @@ const dashboard = require("./src/routes/dashboard");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 const app = express();
 
 app.use(express.json());
