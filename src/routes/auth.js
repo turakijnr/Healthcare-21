@@ -18,6 +18,8 @@ router.post('/auth', async (req,res) => {
 
   const token = user.generateAuthToken();
     res.send(token);
+    // res.cookie( token,{expire: new Date() + 90})
+
 });
 
 function validate(req) {

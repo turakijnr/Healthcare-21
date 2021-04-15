@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const {Sale} = require("../models/sale");
+const { Sale } = require("../models/sale");
+const { Drug } = require("../models/drug");
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
+const { set } = require("mongoose");
 
 router.post("/sales", auth, async (req, res) => {
-//   console.log(req.body);
-//   const { error } = validate(req.body);
-//   if (error) return res.status(400).send(error.details[0].message);
+  //   console.log(req.body);
+  //   const { error } = validate(req.body);
+  //   if (error) return res.status(400).send(error.details[0].message);
 
   try {
     // const sale = new Sale({
@@ -20,6 +22,13 @@ router.post("/sales", auth, async (req, res) => {
 
     // console.log(sale);
     await sale.save();
+
+    //Update Drug quantity Automatically
+    const qty = new Number(req.body.qty);
+    await Drug.updateOne({ _id: req.body._drug }, { $inc: { quantity: -qty } });
+    // let dg = await Drug.findOne({ _id: req.body._drug });
+    // console.log({ dg });
+
     res.status(201).send(sale);
   } catch (e) {
     // console.log(e);
@@ -30,8 +39,8 @@ router.post("/sales", auth, async (req, res) => {
 router.get("/sales/:id", auth, async (req, res) => {
   try {
     const sale = await Sale.findById(req.params.id)
-      .populate("_drug", '-price')
-      .populate("soldBy",'-password');
+      .populate("_drug", "-price")
+      .populate("soldBy", "-password");
     if (!sale) {
       return res.status(404).send("The Drug with the given id was not found");
     }
@@ -43,9 +52,9 @@ router.get("/sales/:id", auth, async (req, res) => {
 
 router.get("/sales-user", auth, async (req, res) => {
   try {
-    const sale = await Sale.find({soldBy: req.user._id})
-      .populate("_drug", '-price')
-      .populate("soldBy",'-password');
+    const sale = await Sale.find({ soldBy: req.user._id })
+      .populate("_drug", "-price")
+      .populate("soldBy", "-password");
     if (!sale) {
       return res.status(404).send("The Drug with the given id was not found");
     }
@@ -55,7 +64,7 @@ router.get("/sales-user", auth, async (req, res) => {
   }
 });
 
-router.delete("/sales/:id", [auth,admin], async (req, res) => {
+router.delete("/sales/:id", [auth, admin], async (req, res) => {
   try {
     const sale = await Sale.findByIdAndRemove(req.params.id);
     if (!sale) {
