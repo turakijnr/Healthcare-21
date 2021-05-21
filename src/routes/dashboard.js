@@ -18,7 +18,7 @@ router.get("/dashboard/drugs", [auth,admin], async (req, res) => {
 });
 
 router.get("/dashboard/sales",[auth,admin], async (req, res) => {
-  const totalsales = await Sale.find().populate("_drug", '-price')
+  const totalsales = await Sale.find().sort({'createdAt': -1}).populate("_drug", '-price')
   .populate("soldBy",'-password');
   res.send(totalsales);
 });

@@ -38,7 +38,7 @@ router.post("/sales", auth, async (req, res) => {
 
 router.get("/sales/:id", auth, async (req, res) => {
   try {
-    const sale = await Sale.findById(req.params.id)
+    const sale = await Sale.findById(req.params.id).sort({'createdAt': -1})
       .populate("_drug", "-price")
       .populate("soldBy", "-password");
     if (!sale) {
